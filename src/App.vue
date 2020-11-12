@@ -1,30 +1,63 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view />
+<div>
+<Header></Header>
+<router-view v-slot="slotProps">
+  <transition name="route" mode="out-in">
+      <component :is="slotProps.Component"></component>
+  </transition> 
+</router-view>
+</div>
 </template>
 
+<script>
+import Header from './components/Header.vue'
+
+export default {
+  components: {
+    Header
+  }
+}
+</script>
+
 <style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /* text-align: center; */
   color: #2c3e50;
 }
 
-#nav {
-  padding: 30px;
+.route-enter-from {
+ opacity: 0;
+ transform: translateY(-50px);
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.route-leave-to {
+  opacity: 0;
+  transform: translateY(50px);
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+.route-enter-active {
+  transition: opacity .5s;
 }
+
+.route-leave-active {
+  transition: opacity .5s;
+}
+
+.route-enter-to,
+.route-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 </style>
